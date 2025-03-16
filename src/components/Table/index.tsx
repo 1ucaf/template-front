@@ -114,7 +114,7 @@ export default function Table({
         <MuiTable aria-label="simple table">
           {
             isMobile ? (<>
-              <MobileTable headers={displayHeaders} actions={actions} rows={filteredData || rows}/>
+              <MobileTable loading={loading} headers={displayHeaders} actions={actions} rows={filteredData || rows}/>
             </>) : (<>
               <TableHeader headers={displayHeaders} actions={actions} />
               <TableBody
