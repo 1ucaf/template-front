@@ -30,7 +30,9 @@ const TableRowComponent: React.FC<TableRowProps> = ({ row, headers, actions }) =
       ))}
       {
         actions && (
-          <TableActions actions={filteredActions} row={row} />
+          <TableCell key="actions" align="right" sx={{ width: "1px", whiteSpace: "nowrap" }}>
+            <TableActions actions={filteredActions} row={row} />
+          </TableCell>
         )
       }
     </StyledTableRow>

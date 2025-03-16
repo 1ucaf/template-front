@@ -1,5 +1,6 @@
-import { Divider, Skeleton, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+import { Skeleton, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import { TableActionType, TableHeaderType, TableRowType } from "../lib/types";
+import MobileRow from "./Row";
 
 const renderSkeletonRow = (rowIndex: number) => (
   <TableRow key={`skeleton-${rowIndex}`}>
@@ -15,7 +16,7 @@ type MobileTableProps = {
   rows: TableRowType[];
   loading?: boolean;
 };
-export const MobileTable: React.FC<MobileTableProps> = ({ headers, rows, loading }) => {
+export const MobileTable: React.FC<MobileTableProps> = ({ actions, headers, rows, loading }) => {
 
   return (
     <TableBody>
@@ -34,16 +35,12 @@ export const MobileTable: React.FC<MobileTableProps> = ({ headers, rows, loading
           </TableRow>
         ) : 
         rows.map((row, index) => (
-          <TableRow sx={{display: 'flex', flexDirection: 'column', flexWrap: 'wrap'}} key={`row-${index}`}>
-            {
-              headers.map((header, index) => (
-                <TableCell key={`cell-${index}`} sx={{display: 'flex', flexDirection: 'column', borderBottom: 'none', flexWrap: 'wrap'}}>
-                  {header.label}: {row[header.name]}
-                </TableCell>
-              ))
-            }
-            <Divider/>
-          </TableRow>
+          <MobileRow
+             key={`row-${index}`}
+             row={row}
+             headers={headers}
+             actions={actions}
+          />
         ))
       }
     </TableBody>

@@ -19,7 +19,7 @@ const TableActions: FC<TableActionsProps> = ({ actions, row }) => {
   };
   return (
     <Fragment>
-      <IconButton disabled={actions.length === 0} onClick={handleClick}>
+      <IconButton disabled={actions.length === 0} onClick={handleClick} sx={{position: 'absolute', right: 0, top: 5}}>
         <MoreVert />
       </IconButton>
       <Menu
