@@ -1,4 +1,4 @@
-import { Box, Divider, TableBody, TableCell, TableRow } from "@mui/material";
+import { Divider, TableBody, TableCell, TableRow } from "@mui/material";
 import { TableActionType, TableHeaderType, TableRowType } from "../lib/types";
 
 type MobileTableProps = {
@@ -6,7 +6,7 @@ type MobileTableProps = {
   headers: TableHeaderType[];
   rows: TableRowType[];
 };
-export const MobileTable: React.FC<MobileTableProps> = ({ actions, headers, rows }) => {
+export const MobileTable: React.FC<MobileTableProps> = ({ headers, rows }) => {
   return (
     <TableBody>
       {rows.map((row, index) => (
