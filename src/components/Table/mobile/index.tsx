@@ -1,6 +1,6 @@
 import { Skeleton, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import { TableActionType, TableHeaderType, TableRowType } from "../lib/types";
-import MobileRow from "./Row";
+import MobileRow from "./TableRow";
 
 const renderSkeletonRow = (rowIndex: number) => (
   <TableRow key={`skeleton-${rowIndex}`}>

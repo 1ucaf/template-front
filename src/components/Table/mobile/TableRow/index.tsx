@@ -1,6 +1,7 @@
-import { Divider, TableCell, TableRow } from "@mui/material";
+import { Divider, TableRow } from "@mui/material";
 import { TableActionType, TableHeaderType, TableRowType } from "../../lib/types";
 import TableActions from "../TableActions";
+import TableCellComponent from "../TableCell";
 
 type TableRowProps = {
   row: TableRowType;
@@ -22,9 +23,7 @@ const MobileRow: React.FC<TableRowProps> = ({ row, headers, actions }) => {
       }
       {
         headers.map((header, index) => (
-          <TableCell key={`cell-${index}`} sx={{display: 'flex', flexDirection: 'column', borderBottom: 'none', flexWrap: 'wrap'}}>
-            {header.label}: {row[header.name]}
-          </TableCell>
+          <TableCellComponent key={`cell-${index}`} row={row} header={header} />
         ))
       }
       <Divider/>
