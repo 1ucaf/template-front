@@ -1,7 +1,7 @@
 import { Divider, Skeleton, TableBody, TableCell, TableRow, Typography } from "@mui/material";
 import { TableActionType, TableHeaderType, TableRowType } from "../lib/types";
 
-const renderSkeletonRow = (rowIndex: number, displayHeaders: TableHeaderType[]) => (
+const renderSkeletonRow = (rowIndex: number) => (
   <TableRow key={`skeleton-${rowIndex}`}>
     <TableCell>
       <Skeleton variant="text" height={156.84} width={'100%'} />
@@ -23,7 +23,7 @@ export const MobileTable: React.FC<MobileTableProps> = ({ headers, rows, loading
         loading ? (
           Array(10)
             .fill(null)
-            .map((_, index) => (renderSkeletonRow(index, headers)))
+            .map((_, index) => (renderSkeletonRow(index)))
         ) : rows.length === 0 ? (
           <TableRow>
             <TableCell colSpan={headers.length + 1} align="center">
