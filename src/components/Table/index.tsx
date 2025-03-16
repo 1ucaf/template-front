@@ -111,7 +111,7 @@ export default function Table({
         </Box>
       )}
       <TableContainer component={Paper}>
-        <MuiTable sx={{ minWidth: 650 }} aria-label="simple table">
+        <MuiTable aria-label="simple table">
           {
             isMobile ? (<>
               <MobileTable headers={displayHeaders} actions={actions} rows={filteredData || rows}/>
@@ -127,10 +127,10 @@ export default function Table({
           }
           {
             pagination && (
-              <TableFooter sx={{minWidth: '306px'}}>
-                <TableRow  sx={{minWidth: '306px'}}>
+              <TableFooter>
+                <TableRow>
                   <TablePagination
-                    sx={{ border: 0, minWidth: '306px' }}
+                    sx={{ border: 0 }}
                     count={pagination.totalRows}
                     page={pagination.page}
                     onPageChange={pagination.onPageChange}
