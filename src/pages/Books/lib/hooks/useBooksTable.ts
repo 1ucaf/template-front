@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
-import { useBooks } from "../../../../lib/hooks/useBooks";
+import { useBooks } from "../../../../lib/hooks/books/useBooks";
 import { usePagination } from "../../../../lib/hooks/usePagination";
 import { formatBooks } from "../utils/formatBooks";
 import { DatesFilterPopup } from "../../../../components/CommonFiltersPopups/DateCreated";
 import { TableActionType } from "../../../../components/Table/lib/types";
-import { FormattedBook } from "../types/FormattedBook";
-import BookInformationModal from "../../components/BookInformationModal";
-import { useViewContext } from "../../../../lib/hooks/contextHooks/useViewContext";
-import { useOnDeleteBook } from "./useOnDeleteBook";
+import { useBooksTableActions } from "./useBooksTableActions";
 
 export const useBooksTable = () => {
-  const { modal } = useViewContext();
-  const { onDeleteBook } = useOnDeleteBook();
+  const { onDeleteBook, onEditBook } = useBooksTableActions();
   const pagination = usePagination();
   const [countState, setCountState] = useState(0);
   const { query } = pagination;
@@ -36,12 +32,6 @@ export const useBooksTable = () => {
       onChange: pagination.setFilters,
     },
   ]
-  const onEditBook = (book: FormattedBook) => {
-    modal.show({
-      title: 'Edit Book',
-      Component: () => BookInformationModal({book}),
-    })
-  }
   const actions = [
     {
       label: 'Edit',

@@ -4,22 +4,15 @@ import { GetUsersQueryType, httpGETUsers } from "../../services/users";
 import { PaginatedUsersResponse } from "../../responses/users";
 
 
-export const useUsers = ({
-  page = 1,
-  pageSize = 10,
-  endDate,
-  startDate,
-  search,
-  role,
-  isActive,
-}: GetUsersQueryType)=>{
+export const useUsers = (query: GetUsersQueryType)=>{
+  const keys = Object.values(query);
   const {
     data: response,
     isLoading,
     error,
   } = useQuery<AxiosResponse<PaginatedUsersResponse>, AxiosError>({
-    queryKey: ['users', page, pageSize, search, startDate, endDate, role, isActive],
-    queryFn: () => httpGETUsers({page, pageSize, search, startDate, endDate, role, isActive}),
+    queryKey: ['users', ...keys],
+    queryFn: () => httpGETUsers(query),
     staleTime: Infinity,
   })
   const { data } = response || {};

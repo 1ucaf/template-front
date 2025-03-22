@@ -6,4 +6,5 @@ export type IGetAuthResponse = {
   name: string;
   isActive: boolean;
   roles: Role[];
+  permissions: string[];
 }

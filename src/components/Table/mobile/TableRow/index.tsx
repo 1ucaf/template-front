@@ -2,6 +2,7 @@ import { Divider, TableRow } from "@mui/material";
 import { TableActionType, TableHeaderType, TableRowType } from "../../lib/types";
 import TableActions from "../TableActions";
 import TableCellComponent from "../TableCell";
+import { getFilteredActions } from "../../lib/utils";
 
 type TableRowProps = {
   row: TableRowType;
@@ -10,10 +11,7 @@ type TableRowProps = {
 }
 
 const MobileRow: React.FC<TableRowProps> = ({ row, headers, actions }) => {
-  const filteredActions = actions?.filter((action) => {
-    if (!action.condition) return true;
-    return action.condition(row);
-  }) || [];
+  const filteredActions = getFilteredActions(actions, row);
   return (
     <TableRow sx={{display: 'flex', flexDirection: 'column', flexWrap: 'wrap', position: 'relative'}}>
       {

@@ -8,6 +8,8 @@ export type IUserResponse = {
   isActive: boolean;
   date_created: string;
   roles?: Role[];
+  permissions?: string[];
+  isDeleted?: boolean;
 }
 
 export type PaginatedUsersResponse = PaginatedResponse<IUserResponse>;

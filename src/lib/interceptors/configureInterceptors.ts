@@ -25,19 +25,8 @@ export const configureInterceptors = () => {
   const { logout } = useAuthContext();
   const location = useLocation();
   useEffect(()=>{
-  
     axios.interceptors.response.use(
-      async (response) => {
-        // if (
-        //   response.config.url !== "/auth" &&
-        //   response.config.url !== "/auth/login" &&
-        //   response.config.url !== "/auth/signup"
-        // ) {
-        //   await new Promise((resolve) => setTimeout(resolve, 5000));
-        // }
-  
-        return response;
-      },
+      response => response,
       (error: AxiosError<{ message: string, statusCode: number }>) => {
         if(
           (error.response?.status === 401 || error.response?.status === 403) &&
@@ -46,7 +35,8 @@ export const configureInterceptors = () => {
           location.pathname !== "/logout" &&
           location.pathname !== "/signup"
         ) {
-          return logout();
+          logout();
+          return Promise.reject(error);
         }
         if(
           error.response?.config?.url !== "/auth"

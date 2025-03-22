@@ -39,7 +39,10 @@ const EditUserModal: React.FC<EditUserModalProps> = ({user}) => {
     }
   }, [isModificationSuccess])
   useEffect(() => {
-    if(isModificationError){
+    if(isModificationError && modificationError){
+      if(modificationError.response?.status === 403) {
+        modal.hide();
+      }
       notification.show({
         content: 'Error modifying user',
         severity: 'error',

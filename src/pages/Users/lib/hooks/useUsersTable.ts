@@ -5,34 +5,24 @@ import { formatUsers } from "../utils/formatUsers";
 import { DatesFilterPopup } from "../../../../components/CommonFiltersPopups/DateCreated";
 import { UserRolesFilterPopup } from "../../components/FiltersPopups/UserRoles";
 import { UserStatusFilterPopup } from "../../components/FiltersPopups/Status";
+import { useUsersTableActions } from "./useUsersTableActions";
 import { FormattedUser } from "../types/FormattedUser";
 import { TableActionType } from "../../../../components/Table/lib/types";
-import { useViewContext } from "../../../../lib/hooks/contextHooks/useViewContext";
-import ActivateUserModal from "../../components/ActivateUserModal";
-import EditUserModal from "../../components/EditUserModal";
+import { Role } from "../../../../lib/enums/role.enum";
+import { useAuthContext } from "../../../../lib/hooks/contextHooks/useAuthContext";
+import { ShowDeletedFilterPopup } from "../../../../components/CommonFiltersPopups/ShowDeleted";
 
 export const useUsersTable = () => {
-  const { modal } = useViewContext();
+  const { user } = useAuthContext();
   const pagination = usePagination();
   const [countState, setCountState] = useState(0);
+  const { activateUser, editUser, userPermissions, deleteUser } = useUsersTableActions();
   const { query } = pagination;
   const { data, isLoading, error } = useUsers(query);
   const {
     count,
     results,
   } = data || {};
-  const activateUser = (user: FormattedUser) => {
-    modal.show({
-      title: 'Activate User',
-      Component: () => ActivateUserModal({user}),
-    })
-  }
-  const editUser = (user: FormattedUser) => {
-    modal.show({
-      title: 'Edit User',
-      Component: () => EditUserModal({user}),
-    })
-  }
   const formattedUsers = formatUsers(results);
   useEffect(()=> {
     if(count) setCountState(count);
@@ -61,20 +51,58 @@ export const useUsersTable = () => {
       popup: UserStatusFilterPopup,
       value: query.isActive,
       onChange: pagination.setFilters,
+    },
+    {
+      name: 'showDeleted',
+      title: 'Show Deleted',
+      popup: ShowDeletedFilterPopup,
+      value: query.showDeleted,
+      onChange: pagination.setFilters,
     }
   ]
-  const actions = [
+  const canEditPermissions = (row: FormattedUser) => {
+    if(!row.isActive) return false;
+    if(!user?.permissions?.includes('users.set_permissions')) return false;
+    if(row.role === 'master') return false;
+    if(row.role === 'owner') return false;
+    if(row.role === 'admin') return user?.roles?.includes(Role.OWNER) || user?.roles?.includes(Role.MASTER);
+    return true;
+  }
+  const canEdit = (row: FormattedUser) => {
+    if(!user?.permissions?.includes('users.edit')) return false;
+    return !['owner', 'admin', 'master'].includes(row.role || '')
+  }
+  const canDelete = (row: FormattedUser) => {
+    if(row.id === user?.id) return false;
+    if(row.isDeleted) return false;
+    if(!user?.permissions?.includes('users.delete')) return false;
+    if(row.role === 'master') return false;
+    if(row.role === 'owner') return false;
+    if(row.role === 'admin') return user?.roles?.includes(Role.OWNER) || user?.roles?.includes(Role.MASTER);
+    return true;
+  };
+  const actions:TableActionType<FormattedUser>[] = [
     {
       label: 'Edit',
       onClick: editUser,
-      condition: (row: FormattedUser) => row.role !== 'admin',
+      condition: canEdit,
     },
     {
       label: 'Activate',
       onClick: activateUser,
-      condition: (row: FormattedUser) => !row.isActive,
+      condition: row => !row.isActive,
+    },
+    {
+      label: 'Permissions',
+      onClick: userPermissions,
+      condition: canEditPermissions,
+    },
+    {
+      label: 'Delete',
+      onClick: deleteUser,
+      condition: canDelete,
     }
-  ] as TableActionType[];
+  ];
   return {
     count: countState,
     formattedUsers,

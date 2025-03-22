@@ -2,6 +2,7 @@ import { TableActionType, TableHeaderType, TableRowType } from "../../lib/types"
 import { styled, TableCell, TableRow } from "@mui/material";
 import TableCellComponent from "../TableCell";
 import TableActions from "../TableActions";
+import { getFilteredActions } from "../../lib/utils";
 
 type TableRowProps = {
   row: TableRowType;
@@ -16,10 +17,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const TableRowComponent: React.FC<TableRowProps> = ({ row, headers, actions }) => {
-  const filteredActions = actions?.filter((action) => {
-    if (!action.condition) return true;
-    return action.condition(row);
-  }) || [];
+  const filteredActions = getFilteredActions(actions, row);
 
   return (
     <StyledTableRow>

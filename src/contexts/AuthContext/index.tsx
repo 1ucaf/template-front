@@ -44,7 +44,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({
   }
   useEffect(()=>{
     if(error) {
-      console.log('navigate login');
       navigate('/login')
     };
   }, [error])

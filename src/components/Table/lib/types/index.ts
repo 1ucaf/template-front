@@ -2,10 +2,10 @@ import { ChangeEventHandler, MouseEvent } from "react";
 
 export type TableRowType = { [key: string]: any };
 export type TableHeaderType<T = TableRowType> = { name: string; label: string, CustomRenderComponent?: React.FC<{row: T}> };
-export type TableActionType = {
+export type TableActionType<T = TableRowType> = {
   label: string;
-  onClick: (row: TableRowType) => void;
-  condition?: (row: TableRowType) => boolean;
+  onClick: (row: T) => void;
+  condition?: boolean | ((row: T) => boolean | undefined);
 }
 export type SearchPropType = {
   onType?: (value: string) => void;

@@ -7,13 +7,12 @@ export const getUserMainRole = (user: IUserResponse) => {
     !user.roles ||
     user.roles.length === 0
   ) return;
-  if(
-    user.roles.length === 1
-  ) return user.roles[0];
-  if(
-    user.roles.includes(Role.ADMIN)
-  ) return Role.ADMIN;
-  return Role.USER;
+  return (
+    user.roles?.find(role => role === Role.MASTER) ||
+    user.roles?.find(role => role === Role.OWNER) ||
+    user.roles?.find(role => role === Role.ADMIN) ||
+    Role.USER
+  )
 };
 
 export const formatUsers = (users: IUserResponse[] | undefined): FormattedUser[] => {

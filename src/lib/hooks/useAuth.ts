@@ -20,6 +20,8 @@ export const useAuth = () => {
   } = useQuery<AxiosResponse<IGetAuthResponse>, AxiosError>({
     queryKey: ['auth'],
     queryFn: httpGETAuth,
+    staleTime: Infinity,
+    retry: false,
   });
   const invalidateAuth = () => {
     queryClient.invalidateQueries({
