@@ -31,18 +31,18 @@ type FilterPropType = {
   isActive?: boolean;
 }
 
-type TableProps = {
-  headers?: TableHeaderType[];
-  rows: TableRowType[];
+type TableProps<T extends TableRowType> = {
+  headers?: TableHeaderType<T>[];
+  rows: T[];
   loading?: boolean;
   show?: string[];
-  actions?: TableActionType[];
+  actions?: TableActionType<T>[];
   search?: SearchPropType;
   pagination?: PaginationPropType;
   filter?: FilterPropType;
 }
 
-export default function Table({
+const Table = <T extends TableRowType>({
   headers,
   rows,
   loading,
@@ -51,11 +51,11 @@ export default function Table({
   search,
   pagination,
   filter,
-}: TableProps) {
+}: TableProps<T>) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down(theme.breakpoints.values.md));
   // console.log(isMobile);
-  const [filteredData, setFilteredData] = useState<TableRowType[] | null>(null);
+  const [filteredData, setFilteredData] = useState<T[] | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const detectedHeaders = headers || Object.keys(rows[0] || {}).map((key) => ({
     name: key,
@@ -147,3 +147,5 @@ export default function Table({
     </>
   );
 }
+
+export default Table;

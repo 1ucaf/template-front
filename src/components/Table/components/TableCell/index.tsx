@@ -1,11 +1,11 @@
 import { TableHeaderType, TableRowType } from "../../lib/types";
 
-export type TableCellProps = {
-  row: TableRowType;
-  header: TableHeaderType
+export type TableCellProps<T extends TableRowType> = {
+  row: T;
+  header: TableHeaderType<T>;
 }
 
-const TableCellComponent: React.FC<TableCellProps> = ({ row, header }) => {
+const TableCellComponent = <T extends TableRowType>({ row, header }: TableCellProps<T>) => {
   const { name, CustomRenderComponent } = header;
   return CustomRenderComponent ? <CustomRenderComponent row={row} /> : row[name];
 };

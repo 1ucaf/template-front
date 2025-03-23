@@ -4,13 +4,13 @@ import TableActions from "../TableActions";
 import TableCellComponent from "../TableCell";
 import { getFilteredActions } from "../../lib/utils";
 
-type TableRowProps = {
-  row: TableRowType;
-  headers: TableHeaderType[];
-  actions?: TableActionType[];
+type TableRowProps<T extends TableRowType> = {
+  row: T;
+  headers: TableHeaderType<T>[];
+  actions?: TableActionType<T>[];
 }
 
-const MobileRow: React.FC<TableRowProps> = ({ row, headers, actions }) => {
+const MobileRow = <T extends TableRowType>({ row, headers, actions }: TableRowProps<T>) => {
   const filteredActions = getFilteredActions(actions, row);
   return (
     <TableRow sx={{display: 'flex', flexDirection: 'column', flexWrap: 'wrap', position: 'relative'}}>

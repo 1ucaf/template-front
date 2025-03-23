@@ -1,14 +1,14 @@
 import { MoreVert } from "@mui/icons-material";
 import { IconButton, Menu, MenuItem } from "@mui/material";
-import { FC, Fragment, useState } from "react";
+import { Fragment, useState } from "react";
 import { TableActionType, TableRowType } from "../../lib/types";
 
-type TableActionsProps = {
-  actions: TableActionType[];
-  row: TableRowType;
+type TableActionsProps<T extends TableRowType> = {
+  actions: TableActionType<T>[];
+  row: T;
 }
 
-const TableActions: FC<TableActionsProps> = ({ actions, row }) => {
+const TableActions = <T extends TableRowType>({ actions, row }: TableActionsProps<T>) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

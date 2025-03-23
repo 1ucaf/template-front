@@ -1,9 +1,9 @@
 import { styled, TableCell, tableCellClasses, TableHead, TableRow } from "@mui/material";
-import { TableActionType, TableHeaderType } from "../../lib/types";
+import { TableActionType, TableHeaderType, TableRowType } from "../../lib/types";
 
-type TableHeadProps = {
-  actions?: TableActionType[];
-  headers: TableHeaderType[];
+type TableHeadProps<T extends TableRowType> = {
+  actions?: TableActionType<T>[];
+  headers: TableHeaderType<T>[];
 }
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -14,7 +14,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const TableHeader: React.FC<TableHeadProps> = ({ headers, actions }) => {
+const TableHeader = <T extends TableRowType>({ headers, actions }: TableHeadProps<T>) => {
   return (
     <TableHead>
       <TableRow>

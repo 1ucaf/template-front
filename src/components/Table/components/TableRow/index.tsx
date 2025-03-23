@@ -4,10 +4,10 @@ import TableCellComponent from "../TableCell";
 import TableActions from "../TableActions";
 import { getFilteredActions } from "../../lib/utils";
 
-type TableRowProps = {
-  row: TableRowType;
-  headers: TableHeaderType[];
-  actions?: TableActionType[];
+type TableRowProps<T extends TableRowType> = {
+  row: T;
+  headers: TableHeaderType<T>[];
+  actions?: TableActionType<T>[];
 }
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -16,7 +16,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const TableRowComponent: React.FC<TableRowProps> = ({ row, headers, actions }) => {
+const TableRowComponent = <T extends TableRowType>({ row, headers, actions }: TableRowProps<T>) => {
   const filteredActions = getFilteredActions(actions, row);
 
   return (

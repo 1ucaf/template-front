@@ -8,7 +8,7 @@ import {
 import { TableActionType, TableHeaderType, TableRowType } from '../../lib/types';
 import TableRowComponent from '../TableRow';
 
-const renderSkeletonRow = (rowIndex: number, displayHeaders: TableHeaderType[]) => (
+const renderSkeletonRow = <T extends TableRowType>(rowIndex: number, displayHeaders: TableHeaderType<T>[]) => (
   <TableRow key={`skeleton-${rowIndex}`}>
     {displayHeaders.map((_, index) => (
       <TableCell key={`skeleton-cell-${rowIndex}-${index}`}>
@@ -17,19 +17,19 @@ const renderSkeletonRow = (rowIndex: number, displayHeaders: TableHeaderType[]) 
     ))}
   </TableRow>
 );
-type TableBodyProps = {
+type TableBodyProps<T extends TableRowType> = {
   loading?: boolean;
-  rows: TableRowType[];
-  displayHeaders: TableHeaderType[];
-  actions?: TableActionType[];
+  rows: T[];
+  displayHeaders: TableHeaderType<T>[];
+  actions?: TableActionType<T>[];
 }
 
-const TableBody: React.FC<TableBodyProps> = ({
+const TableBody = <T extends TableRowType>({
   loading,
   rows,
   displayHeaders,
   actions,
-}) => {
+}: TableBodyProps<T>) => {
   return (
     <MUITableBody>
       {loading

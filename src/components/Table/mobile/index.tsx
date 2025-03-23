@@ -10,13 +10,13 @@ const renderSkeletonRow = (rowIndex: number) => (
   </TableRow>
 );
 
-type MobileTableProps = {
-  actions?: TableActionType[];
-  headers: TableHeaderType[];
-  rows: TableRowType[];
+type MobileTableProps<T extends TableRowType> = {
+  actions?: TableActionType<T>[];
+  headers: TableHeaderType<T>[];
+  rows: T[];
   loading?: boolean;
 };
-export const MobileTable: React.FC<MobileTableProps> = ({ actions, headers, rows, loading }) => {
+export const MobileTable = <T extends TableRowType>({ actions, headers, rows, loading }: MobileTableProps<T>) => {
 
   return (
     <TableBody>
