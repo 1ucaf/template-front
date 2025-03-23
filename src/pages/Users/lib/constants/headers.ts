@@ -1,8 +1,9 @@
 
 import { TableHeaderType } from "../../../../components/Table/lib/types";
 import UserStatusChip from "../../components/UserStatusChip";
+import { FormattedUser } from "../types/FormattedUser";
 
-export const userHeaders: TableHeaderType[] = [
+export const userHeaders: TableHeaderType<FormattedUser>[] = [
   {
     label: 'Name',
     name: 'name',
