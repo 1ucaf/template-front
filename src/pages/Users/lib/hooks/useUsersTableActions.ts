@@ -25,9 +25,43 @@ export const useUsersTableActions = () => {
       Component: () => UserPermissionsModal({user}),
     })
   }
+  const makeAdmin = (user: FormattedUser) => {
+    modal.show({
+      title: 'Admin Role',
+      Component: () => ConfirmationModal({
+        confirmColor: 'primary',
+        description: 'Are you sure you want to assign admin role to this user?',
+        onCancel: modal.hide,
+        invalidateKey: ['users'],
+        actionMethod: 'patch',
+        body: { isAdmin: true },
+        actionUrl: `/users/admin/${String(user.id)}`,
+        errorMessage: 'Error modifying user',
+        successMessage: 'User converted successfully',
+        pendingMessage: 'Deleting user...'
+      }),
+    })
+  }
+  const removeAdmin = (user: FormattedUser) => {
+    modal.show({
+      title: 'Admin Role',
+      Component: () => ConfirmationModal({
+        confirmColor: 'primary',
+        description: 'Are you sure you want to remove admin role from this user?',
+        onCancel: modal.hide,
+        invalidateKey: ['users'],
+        actionMethod: 'patch',
+        body: { isAdmin: false },
+        actionUrl: `/users/admin/${String(user.id)}`,
+        errorMessage: 'Error modifying user',
+        successMessage: 'User converted successfully',
+        pendingMessage: 'Deleting user...'
+      }),
+    })
+  }
   const deleteUser = (user: FormattedUser) => {
     modal.show({
-      title: 'Delete Book',
+      title: 'Delete User',
       Component: () => ConfirmationModal({
         confirmColor: 'error',
         description: 'Are you sure you want to delete this user?',
@@ -42,5 +76,5 @@ export const useUsersTableActions = () => {
       }),
     })
   }
-  return { activateUser, editUser, userPermissions, deleteUser };
+  return { activateUser, editUser, userPermissions, deleteUser, makeAdmin, removeAdmin };
 }

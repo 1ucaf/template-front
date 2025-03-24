@@ -6,12 +6,13 @@ import { useViewContext } from '../../../lib/hooks/contextHooks/useViewContext';
 
 interface ConfirmationModalProps {
   description: string;
-  confirmText: string;
+  confirmText?: string;
   confirmColor: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
   onConfirm?: () => void;
   onCancel: () => void;
   actionUrl: string;
-  actionMethod: 'get' | 'post' | 'put' | 'delete';
+  actionMethod: 'get' | 'post' | 'put' | 'delete' | 'patch';
+  body?: any;
   invalidateKey?: any[];
   pendingMessage?: string;
   errorMessage?: string;
@@ -21,12 +22,13 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   description,
-  confirmText,
+  confirmText = 'Confirm',
   confirmColor,
   onConfirm,
   onCancel,
   actionUrl,
   actionMethod,
+  body,
   invalidateKey,
   pendingMessage,
   errorMessage = 'Something went wrong',
@@ -43,7 +45,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     isPending,
   } = useMutation<AxiosResponse, AxiosError>({
     mutationFn: () => {
-      return axios[actionMethod](actionUrl)
+      return axios[actionMethod](actionUrl, body);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: invalidateKey });

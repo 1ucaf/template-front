@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, TextField } from "@mui/material";
+import { Box, Button, FormControl, TextField } from "@mui/material";
 import { FormattedUser } from "../../lib/types/FormattedUser";
 import { useUsersMutations } from "../../../../lib/hooks/users/useUsersMutations";
 import { useViewContext } from "../../../../lib/hooks/contextHooks/useViewContext";
@@ -16,7 +16,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({user}) => {
     formState: { errors },
   } = useForm<EditUserFormType>({
     defaultValues: {
-      isAdmin: user.roles?.includes(Role.ADMIN),
       name: user.name,
       email: user.email,
     }
@@ -71,10 +70,6 @@ const EditUserModal: React.FC<EditUserModalProps> = ({user}) => {
           helperText={errors.name?.message}
         />
       </FormControl>
-      <FormControlLabel
-        control={<Checkbox {...register('isAdmin')}/>}
-        label="Is Admin"
-      />
       <Button onClick={handleSubmit(onSubmit)} loading={isModificationPending}>Save</Button>
     </Box>
   )

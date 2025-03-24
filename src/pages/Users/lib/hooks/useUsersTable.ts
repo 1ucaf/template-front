@@ -16,7 +16,7 @@ export const useUsersTable = () => {
   const { user } = useAuthContext();
   const pagination = usePagination();
   const [countState, setCountState] = useState(0);
-  const { activateUser, editUser, userPermissions, deleteUser } = useUsersTableActions();
+  const { activateUser, editUser, userPermissions, makeAdmin, removeAdmin, deleteUser } = useUsersTableActions();
   const { query } = pagination;
   const { data, isLoading, error } = useUsers(query);
   const {
@@ -62,15 +62,20 @@ export const useUsersTable = () => {
   ]
   const canEditPermissions = (row: FormattedUser) => {
     if(!row.isActive) return false;
+    if(row.id === user?.id) return false;
     if(!user?.permissions?.includes('users.set_permissions')) return false;
     if(row.role === 'master') return false;
     if(row.role === 'owner') return false;
-    if(row.role === 'admin') return user?.roles?.includes(Role.OWNER) || user?.roles?.includes(Role.MASTER);
+    if(row.role === 'admin') return user.roles?.includes(Role.OWNER) || user.roles?.includes(Role.MASTER);
     return true;
   }
   const canEdit = (row: FormattedUser) => {
     if(!user?.permissions?.includes('users.edit')) return false;
-    return !['owner', 'admin', 'master'].includes(row.role || '')
+    if(row.id === user?.id) return false;
+    if(row.role === 'master') return false;
+    if(row.role === 'owner') return false;
+    if(row.role === 'admin') return user?.roles?.includes(Role.OWNER) || user?.roles?.includes(Role.MASTER);
+    return true;
   }
   const canDelete = (row: FormattedUser) => {
     if(row.id === user?.id) return false;
@@ -81,6 +86,22 @@ export const useUsersTable = () => {
     if(row.role === 'admin') return user?.roles?.includes(Role.OWNER) || user?.roles?.includes(Role.MASTER);
     return true;
   };
+  const canMakeAdmin = (row: FormattedUser) => {
+    if(row.id === user?.id) return false;
+    if(row.role === 'master') return false;
+    if(row.role === 'owner') return false;
+    if(row.role === 'admin') return false;
+    if(user?.roles?.includes(Role.OWNER) || user?.roles?.includes(Role.MASTER)) return true;
+    return user?.permissions?.includes('users.set_admin')
+  }
+  const canRemoveAdmin = (row: FormattedUser) => {
+    if(row.id === user?.id) return false;
+    if(row.role === 'master') return false;
+    if(row.role === 'owner') return false;
+    if(!row.roles?.includes(Role.ADMIN)) return false;
+    if(user?.roles?.includes(Role.OWNER) || user?.roles?.includes(Role.MASTER)) return true;
+    return user?.permissions?.includes('users.set_admin')
+  }
   const actions:TableActionType<FormattedUser>[] = [
     {
       label: 'Edit',
@@ -96,6 +117,16 @@ export const useUsersTable = () => {
       label: 'Permissions',
       onClick: userPermissions,
       condition: canEditPermissions,
+    },
+    {
+      label: 'Make Admin',
+      onClick: makeAdmin,
+      condition: canMakeAdmin,
+    },
+    {
+      label: 'Remove Admin',
+      onClick: removeAdmin,
+      condition: canRemoveAdmin,
     },
     {
       label: 'Delete',
