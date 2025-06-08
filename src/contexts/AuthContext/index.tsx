@@ -47,7 +47,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({
       navigate('/login')
     };
   }, [error])
-  const isAdmin = useMemo(() => user?.roles?.some(role => role === Role.ADMIN), [user]);
+  const isAdmin = useMemo(() => user?.roles?.some(role => (
+    role === Role.ADMIN ||
+    role === Role.OWNER ||
+    role === Role.MASTER
+  )), [user]);
   return (
     <AuthContext.Provider value={{
       user: error ? undefined : user,
