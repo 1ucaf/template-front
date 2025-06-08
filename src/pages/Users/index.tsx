@@ -42,7 +42,7 @@ const Users: React.FC<UsersProps> = () => {
           onPageChange: (_, page) => {setPage(page + 1)},
           onRowsPerPageChange: (e) => {
             setPageSize(parseInt(e.target.value))
-            setPage(1);
+            setPage(0);
           },
         }}
         actions={actions}
