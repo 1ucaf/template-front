@@ -36,7 +36,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({
     user,
     loginMutation,
     signUpMutation,
-    invalidateAuth,
+    invalidateAllQueries
   } = useAuth();
   const login = async (data: LoginDTO) => {
     loginMutation.mutate(data);
@@ -46,7 +46,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({
   }
   const logout = () => {
     localStorage.removeItem('token');
-    invalidateAuth();
+    invalidateAllQueries();
   }
   useEffect(()=>{
     if(error) {

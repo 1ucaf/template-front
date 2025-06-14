@@ -31,6 +31,7 @@ export const useAuth = () => {
       exact: true,
     });
   }
+  const invalidateAllQueries = () => queryClient.invalidateQueries();
   const loginMutation = useMutation<AxiosResponse<any>, AxiosError<APIBaseError>, LoginDTO>({
     mutationFn: (data: LoginDTO) => httpPOSTLogin(data),
     onSuccess: (data) => {
@@ -52,5 +53,6 @@ export const useAuth = () => {
     loginMutation,
     signUpMutation,
     invalidateAuth,
+    invalidateAllQueries,
   }
 }
