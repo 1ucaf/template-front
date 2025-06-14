@@ -16,9 +16,9 @@ export type AuthContextType = {
   login: (data: LogInFormType) => Promise<void>;
   signUp: (data: SignUpFormType) => Promise<void>;
   logout: () => void;
-  isLoginPending: boolean;
+  isLoginPending?: boolean;
   loginError?: AxiosError<APIBaseError, any> | null;
-  isSignUpPending: boolean;
+  isSignUpPending?: boolean;
   signUpError?: AxiosError<APIBaseError, any> | null;
 }
 
