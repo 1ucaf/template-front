@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { useEffect } from "react";
-import { APIBaseError } from "../types/errors/commonError.type";
+import { APIBaseError } from "../types/errors/apiBaseError.type";
 import { useViewContext } from "./contextHooks/useViewContext";
 
 export const useDefaultErrorHandler = (error: AxiosError<APIBaseError, any> | null | undefined) => {

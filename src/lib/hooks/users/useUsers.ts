@@ -3,7 +3,7 @@ import { AxiosError, AxiosResponse } from "axios";
 import { GetUsersQueryType, httpGETUsers } from "../../services/users";
 import { PaginatedUsersResponse } from "../../responses/users";
 import { useDefaultErrorHandler } from "../useDefaultErrorHandler";
-import { APIBaseError } from "../../types/errors/commonError.type";
+import { APIBaseError } from "../../types/errors/apiBaseError.type";
 
 
 export const useUsers = (query: GetUsersQueryType)=>{

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { httpActivateUser, httpEditUser, httpEditUserPermissions } from "../../services/users"
 import { AxiosError, AxiosResponse } from "axios";
-import { APIBaseError } from "../../types/errors/commonError.type";
+import { APIBaseError } from "../../types/errors/apiBaseError.type";
 import { useDefaultErrorHandler } from "../useDefaultErrorHandler";
 
 export const useUsersMutations = () => {

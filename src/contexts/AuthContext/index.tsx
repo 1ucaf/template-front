@@ -8,7 +8,7 @@ import { LogInFormType } from '../../lib/types/forms/LoginForm';
 import { Role } from '../../lib/enums/role.enum';
 import { useNavigate } from 'react-router';
 import { AxiosError } from 'axios';
-import { APIBaseError } from '../../lib/types/errors/commonError.type';
+import { APIBaseError } from '../../lib/types/errors/apiBaseError.type';
 
 export type AuthContextType = {
   user?: IGetAuthResponse;

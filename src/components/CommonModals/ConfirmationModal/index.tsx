@@ -3,7 +3,7 @@ import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useViewContext } from '../../../lib/hooks/contextHooks/useViewContext';
-import { APIBaseError } from '../../../lib/types/errors/commonError.type';
+import { APIBaseError } from '../../../lib/types/errors/apiBaseError.type';
 import { useDefaultErrorHandler } from '../../../lib/hooks/useDefaultErrorHandler';
 
 interface ConfirmationModalProps {

@@ -5,7 +5,7 @@ import { IGetAuthResponse } from "../responses/getAuth"
 import { LoginDTO } from "../dto/LoginDTO"
 import { SignUpDTO } from "../dto/SignUpDTO"
 import { useNavigate } from "react-router"
-import { APIBaseError } from "../types/errors/commonError.type"
+import { APIBaseError } from "../types/errors/apiBaseError.type"
 
 export const useAuth = () => {
   const navigate = useNavigate();

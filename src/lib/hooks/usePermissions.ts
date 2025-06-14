@@ -1,7 +1,7 @@
 import { AxiosError, AxiosResponse } from "axios";
 import { httpGETPermissions } from "../services/permissions";
 import { useQuery } from "@tanstack/react-query";
-import { APIBaseError } from "../types/errors/commonError.type";
+import { APIBaseError } from "../types/errors/apiBaseError.type";
 
 interface IPermissionResponse {
   user: Record<string, string>;
