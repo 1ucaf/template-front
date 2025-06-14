@@ -22,6 +22,7 @@ export const useAuth = () => {
     queryFn: httpGETAuth,
     staleTime: Infinity,
     retry: false,
+    enabled: !!localStorage.getItem('token'),
   });
   const invalidateAuth = () => {
     queryClient.invalidateQueries({

@@ -6,10 +6,8 @@ import Books from './pages/Books';
 import { ROUTES } from './lib/constants/routes';
 import Logout from './pages/Logout';
 import Users from './pages/Users';
-import { configureInterceptors } from './lib/interceptors/configureInterceptors';
 
 function App() {
-  configureInterceptors();
   return (
     <>
       <Routes>
