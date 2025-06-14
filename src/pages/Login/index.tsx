@@ -7,7 +7,7 @@ import { LogInFormType } from '../../lib/types/forms/LoginForm'
 type LoginProps = {}
 
 const Login: React.FC<LoginProps> = () => {
-  const { login } = useAuthContext();
+  const { login, isLoginPending } = useAuthContext();
   const {
     handleSubmit,
     register,
@@ -48,7 +48,9 @@ const Login: React.FC<LoginProps> = () => {
           fullWidth
           {...register('password', {required: true})}
         />
-        <Button variant='contained' onClick={handleSubmit(login)}>Login</Button>
+        <Button variant='contained' loading={isLoginPending} disabled={isLoginPending} onClick={handleSubmit(login)}>
+          Login
+        </Button>
       </Box>
     </Box>
   )

@@ -14,6 +14,7 @@ export type AuthContextType = {
   login: (data: LogInFormType) => Promise<void>;
   signUp: (data: SignUpFormType) => Promise<void>;
   logout: () => void;
+  isLoginPending: boolean;
 }
 
 export const AuthContext = React.createContext<AuthContextType>(initialContextValue);
@@ -59,6 +60,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({
       login,
       signUp,
       logout,
+      isLoginPending: loginMutation.isPending,
     }}>
       {children}
     </AuthContext.Provider>
