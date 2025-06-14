@@ -3,6 +3,8 @@ import { Box, Button, CircularProgress, Typography } from '@mui/material';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useViewContext } from '../../../lib/hooks/contextHooks/useViewContext';
+import { APIBaseError } from '../../../lib/types/errors/commonError.type';
+import { useDefaultErrorHandler } from '../../../lib/hooks/useDefaultErrorHandler';
 
 interface ConfirmationModalProps {
   description: string;
@@ -43,7 +45,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     isError,
     error,
     isPending,
-  } = useMutation<AxiosResponse, AxiosError>({
+  } = useMutation<AxiosResponse, AxiosError<APIBaseError>>({
     mutationFn: () => {
       return axios[actionMethod](actionUrl, body);
     },
@@ -51,6 +53,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
       queryClient.invalidateQueries({ queryKey: invalidateKey });
     }
   });
+  useDefaultErrorHandler(error);
   
   useEffect(() => {
     if(isSuccess){

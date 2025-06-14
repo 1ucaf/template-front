@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { httpActivateUser, httpEditUser, httpEditUserPermissions } from "../../services/users"
 import { AxiosError, AxiosResponse } from "axios";
+import { APIBaseError } from "../../types/errors/commonError.type";
+import { useDefaultErrorHandler } from "../useDefaultErrorHandler";
 
 export const useUsersMutations = () => {
   const queryClient = useQueryClient();
@@ -10,7 +12,7 @@ export const useUsersMutations = () => {
     isError: isActivationError,
     error: activationError,
     isPending: isActivationPending,
-  } = useMutation<AxiosResponse, AxiosError, any>({
+  } = useMutation<AxiosResponse, AxiosError<APIBaseError>, any>({
     mutationFn: httpActivateUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
@@ -23,7 +25,7 @@ export const useUsersMutations = () => {
     isError: isModificationError,
     error: modificationError,
     isPending: isModificationPending,
-  } = useMutation<AxiosResponse, AxiosError, any>({
+  } = useMutation<AxiosResponse, AxiosError<APIBaseError>, any>({
     mutationFn: httpEditUser,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
@@ -36,12 +38,13 @@ export const useUsersMutations = () => {
     isError: isEditUserPermissionsError,
     error: editUserPermissionsError,
     isPending: isEditUserPermissionsPending,
-  } = useMutation<AxiosResponse, AxiosError, any>({
+  } = useMutation<AxiosResponse, AxiosError<APIBaseError>, any>({
     mutationFn: httpEditUserPermissions,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },
   })
+  useDefaultErrorHandler(activationError || modificationError || editUserPermissionsError);
   return {
     activationMutate,
     isActivationSuccess,

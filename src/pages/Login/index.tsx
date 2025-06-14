@@ -3,11 +3,13 @@ import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useAuthContext } from '../../lib/hooks/contextHooks/useAuthContext'
 import { LogInFormType } from '../../lib/types/forms/LoginForm'
+import { useDefaultErrorHandler } from '../../lib/hooks/useDefaultErrorHandler'
 
 type LoginProps = {}
 
 const Login: React.FC<LoginProps> = () => {
-  const { login, isLoginPending } = useAuthContext();
+  const { login, isLoginPending, loginError } = useAuthContext();
+  useDefaultErrorHandler(loginError);
   const {
     handleSubmit,
     register,

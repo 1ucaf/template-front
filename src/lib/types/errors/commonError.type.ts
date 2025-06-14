@@ -1,0 +1,1 @@
+export type APIBaseError = { message: string, statusCode: number, error: string };

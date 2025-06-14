@@ -7,6 +7,8 @@ import { SignUpFormType } from '../../lib/types/forms/SignUpForm';
 import { LogInFormType } from '../../lib/types/forms/LoginForm';
 import { Role } from '../../lib/enums/role.enum';
 import { useNavigate } from 'react-router';
+import { AxiosError } from 'axios';
+import { APIBaseError } from '../../lib/types/errors/commonError.type';
 
 export type AuthContextType = {
   user?: IGetAuthResponse;
@@ -15,6 +17,9 @@ export type AuthContextType = {
   signUp: (data: SignUpFormType) => Promise<void>;
   logout: () => void;
   isLoginPending: boolean;
+  loginError?: AxiosError<APIBaseError, any> | null;
+  isSignUpPending: boolean;
+  signUpError?: AxiosError<APIBaseError, any> | null;
 }
 
 export const AuthContext = React.createContext<AuthContextType>(initialContextValue);
@@ -61,6 +66,9 @@ const AuthProvider: React.FC<AuthProviderProps> = ({
       signUp,
       logout,
       isLoginPending: loginMutation.isPending,
+      loginError: loginMutation.error,
+      isSignUpPending: signUpMutation.isPending,
+      signUpError: signUpMutation.error,
     }}>
       {children}
     </AuthContext.Provider>

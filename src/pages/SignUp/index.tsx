@@ -3,11 +3,13 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { useAuthContext } from '../../lib/hooks/contextHooks/useAuthContext';
 import { SignUpFormType } from '../../lib/types/forms/SignUpForm';
+import { useDefaultErrorHandler } from '../../lib/hooks/useDefaultErrorHandler';
 
 type SignUpProps = {}
 
 const SignUp:React.FC<SignUpProps> = () => {
-  const { signUp } = useAuthContext();
+  const { signUp, isSignUpPending, signUpError } = useAuthContext();
+  useDefaultErrorHandler(signUpError);
   const {
     handleSubmit,
     register,
@@ -65,7 +67,7 @@ const SignUp:React.FC<SignUpProps> = () => {
           fullWidth
           {...register('confirmPassword', {required: true})}
         />
-        <Button variant='contained' onClick={handleSubmit(signUp)}>Sign Up</Button>
+        <Button variant='contained' disabled={isSignUpPending} loading={isSignUpPending} onClick={handleSubmit(signUp)}>Sign Up</Button>
       </Box>
     </Box>
   )

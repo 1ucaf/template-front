@@ -5,6 +5,7 @@ import { IGetAuthResponse } from "../responses/getAuth"
 import { LoginDTO } from "../dto/LoginDTO"
 import { SignUpDTO } from "../dto/SignUpDTO"
 import { useNavigate } from "react-router"
+import { APIBaseError } from "../types/errors/commonError.type"
 
 export const useAuth = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const useAuth = () => {
     data: response,
     isLoading,
     error,
-  } = useQuery<AxiosResponse<IGetAuthResponse>, AxiosError>({
+  } = useQuery<AxiosResponse<IGetAuthResponse>, AxiosError<APIBaseError>>({
     queryKey: ['auth'],
     queryFn: httpGETAuth,
     staleTime: Infinity,
@@ -30,14 +31,14 @@ export const useAuth = () => {
       exact: true,
     });
   }
-  const loginMutation = useMutation({
+  const loginMutation = useMutation<AxiosResponse<any>, AxiosError<APIBaseError>, LoginDTO>({
     mutationFn: (data: LoginDTO) => httpPOSTLogin(data),
     onSuccess: (data) => {
       invalidateAuth();
       onSuccessAuth(data.data.token);
     },
   });
-  const signUpMutation = useMutation({
+  const signUpMutation = useMutation<AxiosResponse<any>, AxiosError<APIBaseError>, SignUpDTO>({
     mutationFn: (data: SignUpDTO) => httpPOSTSignUp(data),
     onSuccess: (data) => {
       invalidateAuth();
